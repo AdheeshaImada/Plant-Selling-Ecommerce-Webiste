@@ -3,8 +3,14 @@ const path = require('path');
 const cors = require('cors'); // Use CORS to allow requests from the same origin
 
 
+
 const app = express();
 const port = 3000;
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+app.use(cors());
 
 // Serve static files from the root directory
 app.use(express.static(__dirname));
@@ -16,7 +22,7 @@ app.get('/', (req, res) => {
 
 // Route for cart page
 app.get('/cart', (req, res) => {
-    res.sendFile(path.join(__dirname, 'cart.html'));
+   res.sendFile(path.join(__dirname, 'cart.html'));
 });
 
 // Route for sign-in page
@@ -27,6 +33,18 @@ app.get('/signin', (req, res) => {
 // Modular route: /products
 const productsRouter = require('./routes/products');
 app.use('/products', productsRouter);
+
+// Modular route: /cart
+const cartRouter = require('./routes/cart');
+app.use('/cart', cartRouter);
+
+// Modular route for authentication
+const { router: authRouter, isAdmin } = require('./routes/auth');
+app.use('/auth', authRouter);
+
+// Modular route: /favorites
+const favoritesRouter = require('./routes/favorites');
+app.use('/favorites', favoritesRouter);
 
 // 404 handler
 app.use((req, res) => {
