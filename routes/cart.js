@@ -9,7 +9,7 @@ router.use(express.json());
 router.get('/:id', (req, res) => {
     const userId = parseInt(req.params.id);
     const query = `
-        SELECT ci.quantity, p.id, p.name, p.price, p.image_url
+        SELECT ci.quantity, p.id, p.name, p.price, p.imege_url
         FROM cart_items ci
         JOIN products p ON ci.product_id = p.id
         WHERE ci.user_id = ?`;
