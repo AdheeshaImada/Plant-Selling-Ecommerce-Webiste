@@ -151,7 +151,7 @@ function displayProducts(products, container) {
             <a href="#" class="fas fa-share"></a>
             <a href="product-details.html?id=${product.id}" class="fas fa-eye"></a>
             </div>
-            <img src="${product.image_url}" alt="${product.name}">
+            <img src="${product.imege_url}" alt="${product.name}">
             <h3>${product.name}</h3>
             <div class="stars">
             <i class="fas fa-star"></i>

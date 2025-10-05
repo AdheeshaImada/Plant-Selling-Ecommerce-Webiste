@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             name: document.getElementById('name').value,
             price: parseFloat(document.getElementById('price').value),
             stock_quantity: parseInt(document.getElementById('stock_quantity').value),
-            image_url: document.getElementById('image_url').value,
+            imege_url: document.getElementById('image_url').value,
             // You are missing the 'category' field here, you should add it back to the form data
             // category: document.getElementById('category').value 
         };

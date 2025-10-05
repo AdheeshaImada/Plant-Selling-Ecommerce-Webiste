@@ -18,10 +18,10 @@ router.get('/', (req, res) => {
 
 // POST /products/add (Admin-only)
 router.post('/add', isAdmin, (req, res) => {
-    const { name, price, stock_quantity, image_url} = req.body;
-    const query = 'INSERT INTO products (name, price, stock_quantity, image_url) VALUES (?, ?, ?, ?)';
+    const { name, price, stock_quantity, imege_url} = req.body;
+    const query = 'INSERT INTO products (name, price, stock_quantity, imege_url) VALUES (?, ?, ?, ?)';
     
-    db.query(query, [name, price, stock_quantity, image_url], (err, result) => {
+    db.query(query, [name, price, stock_quantity, imege_url], (err, result) => {
         if (err) {
             console.error('Error adding product:', err);
             return res.status(500).send('Server error');
@@ -33,10 +33,10 @@ router.post('/add', isAdmin, (req, res) => {
 // PUT /products/update/:id (Admin-only)
 router.put('/update/:id', isAdmin, (req, res) => {
     const { id } = req.params;
-    const { name, price, stock_quantity, image_url} = req.body;
-    const query = 'UPDATE products SET name = ?, price = ?, stock_quantity = ? image_url = ? WHERE id = ?';
+    const { name, price, stock_quantity, imege_url} = req.body;
+    const query = 'UPDATE products SET name = ?, price = ?, stock_quantity = ? imege_url = ? WHERE id = ?';
     
-    db.query(query, [name, price, stock_quantity, image_url, id], (err, result) => {
+    db.query(query, [name, price, stock_quantity, imege_url, id], (err, result) => {
         if (err) {
             console.error('Error updating product:', err);
             return res.status(500).send('Server error');
