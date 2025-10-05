@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalElement = document.getElementById('cart-total');
+    const checkoutBtn = document.querySelector('.cart-summary a.btn');
 
     // Get userId from localStorage
     const userId = localStorage.getItem('userId');
@@ -16,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchCartData() {
-        alert("OK 10");
         try {
             const response = await fetch(`${BACKEND_URL}/cart/${userId}`);
             if (!response.ok) {
@@ -93,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const result = await response.json();
                     
                     if (response.ok) {
-                        alert("OK 2");
                         fetchCartData(); // Re-fetch data to update the cart display
                     } else {
                         throw new Error(result.message || 'Failed to remove item.');
@@ -151,6 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', handleCheckout);
     }
-    alert("OK 1");
+    
     fetchCartData(); // Initial fetch to load the cart
 });
