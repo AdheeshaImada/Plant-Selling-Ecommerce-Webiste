@@ -1,9 +1,7 @@
 // cart.js
 
-const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
-
-
 document.addEventListener('DOMContentLoaded', () => {
+    const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalElement = document.getElementById('cart-total');
 
