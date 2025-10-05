@@ -96,7 +96,7 @@ async function fetchProducts(searchQuery = null) {
     const userId = localStorage.getItem('userId');
     const isHomePage = document.getElementById('Featured-Product'); // Check for the homepage section ID
     
-    let endpoint = 'mysql://root:YwABBpYUckRrdxokHEAhdaUdfMxvveUp@hopper.proxy.rlwy.net:10213/railway';
+    let endpoint = fetch('/products');
 
     // 1. Construct the API endpoint with the search query if one exists
     if (searchQuery) {
