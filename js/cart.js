@@ -1,4 +1,8 @@
 // cart.js
+
+const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalElement = document.getElementById('cart-total');
@@ -15,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchCartData() {
         try {
-            const response = await fetch(`http://localhost:3000/cart/${userId}`);
+            const response = await fetch(`${BACKEND_URL}/cart/${userId}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -67,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 //const userId = 11;
 
                 try {
-                    const response = await fetch('http://localhost:3000/cart/remove', {
+                    const response = await fetch(`${BACKEND_URL}/cart/remove`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json'
