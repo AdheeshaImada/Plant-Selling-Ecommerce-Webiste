@@ -37,7 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (items.length === 0) {
             cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`;
+            // Disable checkout button if cart is empty
+            if (checkoutBtn) {
+                checkoutBtn.style.pointerEvents = 'none';
+                checkoutBtn.style.opacity = '0.5';
+            }
+            cartTotalElement.innerText = `$0.00`;
             return;
+        }
+
+        // Enable checkout button if cart has items
+        if (checkoutBtn) {
+            checkoutBtn.style.pointerEvents = 'auto';
+            checkoutBtn.style.opacity = '1';
         }
 
         items.forEach(item => {
@@ -92,6 +104,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+    }
+
+    // Checkout function
+    async function handleCheckout(event) {
+        event.preventDefault(); // Prevent default link navigation
+
+        if (!confirm("Are you sure you want to complete the purchase?")) {
+            return;
+        }
+
+        // Temporarily disable the button
+        if (checkoutBtn) {
+            checkoutBtn.style.pointerEvents = 'none';
+            checkoutBtn.innerText = 'Processing...';
+        }
+
+        try {
+            const response = await fetch(`${BACKEND_URL}/cart/checkout`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(`🎉 Order #${result.orderId} placed successfully! Total: $${result.total}. Your cart is now empty.`);
+                fetchCartData(); // Clear the display
+            } else {
+                alert(`❌ Checkout Failed: ${result.message || 'Server error.'}`);
+            }
+        } catch (error) {
+            console.error("Checkout failed:", error);
+            alert('An unexpected error occurred during checkout.');
+        } finally {
+            // Restore button state (fetchCartData handles re-enabling if items exist)
+            if (checkoutBtn) {
+                checkoutBtn.innerText = 'Proceed to Checkout';
+                checkoutBtn.style.pointerEvents = 'auto';
+            }
+        }
+    }
+
+    // Attach event listener for the checkout button
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', handleCheckout);
     }
 
     fetchCartData(); // Initial fetch to load the cart
