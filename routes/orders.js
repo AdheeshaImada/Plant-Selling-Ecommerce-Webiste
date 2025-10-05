@@ -8,20 +8,7 @@ router.use(express.json());
 // GET /orders - Fetch all orders for admin dashboard
 router.get('/', (req, res) => {
     // NOTE: In a real application, you should add isAdmin middleware here
-    const query = `
-        SELECT
-            o.id AS order_id,
-            o.order_date,
-            o.total_amount,
-            o.status,
-            u.username AS user_name,
-            COUNT(oi.product_id) AS total_items
-        FROM orders o
-        JOIN users u ON o.user_id = u.id
-        LEFT JOIN order_items oi ON o.id = oi.order_id
-        GROUP BY o.id
-        ORDER BY o.order_date DESC;
-    `;
+    const query = `SELECT o.id AS order_id, o.order_date, o.total_amount, o.status, u.username AS user_name, COUNT(oi.product_id) AS total_items FROM orders o JOIN users u ON o.user_id = u.id LEFT JOIN order_items oi ON o.id = oi.order_id GROUP BY o.id ORDER BY o.order_date DESC`;
 
     db.query(query, (err, results) => {
         if (err) {
@@ -35,16 +22,7 @@ router.get('/', (req, res) => {
 // GET /orders/:id - Fetch details for a specific order
 router.get('/:id', (req, res) => {
     const orderId = req.params.id;
-    const query = `
-        SELECT 
-            oi.quantity,
-            oi.price_at_purchase,
-            p.name AS product_name,
-            p.image_url
-        FROM order_items oi
-        JOIN products p ON oi.product_id = p.id
-        WHERE oi.order_id = ?;
-    `;
+    const query = `SELECT oi.quantity, oi.price_at_purchase, p.name AS product_name, p.image_url FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?`;
 
     db.query(query, [orderId], (err, results) => {
         if (err) {
