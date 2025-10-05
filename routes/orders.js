@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
             return res.status(500).json({ message: 'Error fetching orders from database.' });
         }
         res.json(results);
+        console.log(res.json(results));
     });
 });
 
