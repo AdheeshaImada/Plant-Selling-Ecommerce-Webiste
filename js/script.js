@@ -1,5 +1,6 @@
 // script.js
 // Place these at the top of your script (Preserved Existing Variables)
+const BACKEND_BASE_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app'; 
 const loginBtn = document.getElementById('login-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const cartIcon = document.querySelector('.fas.fa-shopping-cart');
@@ -22,7 +23,7 @@ let userFavorites = [];
 async function fetchUserFavorites(userId) {
     if (!userId) return [];
     try {
-        const response = await fetch(`http://localhost:3000/favorites/${userId}`);
+        const response = await fetch(`${BACKEND_BASE_URL}/favorites/${userId}`);
         if (!response.ok) throw new Error('Failed to fetch favorites');
         // Returns an array of product IDs: [1, 5, 8]
         const favoriteIds = await response.json(); 
@@ -56,7 +57,7 @@ async function toggleFavorite(event) {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/favorites/toggle', {
+        const response = await fetch(`${BACKEND_BASE_URL}/favorites/toggle`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -96,7 +97,7 @@ async function fetchProducts(searchQuery = null) {
     const userId = localStorage.getItem('userId');
     const isHomePage = document.getElementById('Featured-Product'); // Check for the homepage section ID
     
-    let endpoint = fetch('/products');
+    let endpoint = `${BACKEND_BASE_URL}/products`;
 
     // 1. Construct the API endpoint with the search query if one exists
     if (searchQuery) {
@@ -203,7 +204,7 @@ function displayProducts(products) {
                     return;
                 }
                 
-                const response = await fetch('http://localhost:3000/cart/add', {
+                const response = await fetch(`${BACKEND_BASE_URL}/cart/add`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ userId, productId, quantity })
@@ -270,7 +271,7 @@ async function displayLoggedInUser() {
             logoutBtn.style.display = 'block';
 
             try {
-                const response = await fetch(`http://localhost:3000/auth/user/${userId}`);
+                const response = await fetch(`${BACKEND_BASE_URL}/auth/user/${userId}`);
                 const result = await response.json();
 
                 if (response.ok && result.user) {
