@@ -1,9 +1,7 @@
 // js/auth.js
-
-const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
-
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
+    const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (event) => {
@@ -27,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     // Store the userId to use for cart operations
                     localStorage.setItem('userId', result.userId);
-                   localStorage.setItem('userRole', result.userRole);
+                    localStorage.setItem('userRole', result.userRole);
                     // Redirect based on role
                     if (result.userRole === 'admin') {
                         window.location.href = 'admin.html';
