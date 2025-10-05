@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 // 1. Create the connection object using environment variables.
 // These variables must be set in the Railway dashboard for your Node.js app service.
