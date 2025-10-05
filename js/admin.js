@@ -1,9 +1,7 @@
 // js/admin.js
 
-const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
-
-
 document.addEventListener('DOMContentLoaded', async () => {
+    const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
     const userId = localStorage.getItem('userId');
 
     // First, verify if the user is an admin
