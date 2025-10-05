@@ -149,5 +149,70 @@ router.delete('/remove', (req, res) => {
     });
 });
 
+// 🛒 NEW: POST /cart/checkout - Finalizes the order and clears the cart using a transaction
+router.post('/checkout', (req, res) => {
+    const { userId } = req.body;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID is required for checkout.' });
+    }
+
+    // Start a transaction
+    db.beginTransaction(err => {
+        if (err) {
+            console.error('Error starting transaction:', err);
+            return res.status(500).send('Server error');
+        }
+
+        // 1. Fetch Cart Items and Calculate Total
+        const getCartQuery = `SELECT ci.product_id, ci.quantity, p.price FROM cart_items ci JOIN products p ON ci.product_id = p.id WHERE ci.user_id = ?`;
+
+        db.query(getCartQuery, [userId], (err, cartItems) => {
+            if (err) return db.rollback(() => res.status(500).send('Error fetching cart items.'));
+
+            if (cartItems.length === 0) {
+                return db.rollback(() => res.status(400).json({ message: 'Your cart is empty.' }));
+            }
+
+            const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // 2. Insert into orders table
+            const insertOrderQuery = 'INSERT INTO orders (user_id, total_amount, status) VALUES (?, ?, ?)';
+
+            db.query(insertOrderQuery, [userId, totalAmount.toFixed(2), 'Completed'], (err, orderResult) => {
+                if (err) return db.rollback(() => res.status(500).send('Error creating order.'));
+
+                const orderId = orderResult.insertId;
+
+                // 3. Insert into order_items table
+                const orderItemValues = cartItems.map(item => [orderId, item.product_id, item.quantity, item.price]);
+                const insertItemsQuery = 'INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase) VALUES ?';
+
+                // Using node-mysql's bulk insert feature
+                db.query(insertItemsQuery, [orderItemValues], (err) => {
+                    if (err) return db.rollback(() => res.status(500).send('Error inserting order items.'));
+
+                    // 4. Clear the user's cart
+                    const clearCartQuery = 'DELETE FROM cart_items WHERE user_id = ?';
+
+                    db.query(clearCartQuery, [userId], (err) => {
+                        if (err) return db.rollback(() => res.status(500).send('Error clearing cart.'));
+
+                        // 5. Commit the transaction
+                        db.commit(err => {
+                            if (err) return db.rollback(() => res.status(500).send('Transaction commit error.'));
+
+                            res.status(200).json({
+                                message: 'Order placed successfully!',
+                                orderId: orderId,
+                                total: totalAmount.toFixed(2)
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
 
 module.exports = router;
