@@ -96,7 +96,7 @@ async function fetchProducts(searchQuery = null) {
     const userId = localStorage.getItem('userId');
     const isHomePage = document.getElementById('Featured-Product'); // Check for the homepage section ID
     
-    let endpoint = 'http://localhost:3000/products';
+    let endpoint = 'mysql://root:YwABBpYUckRrdxokHEAhdaUdfMxvveUp@hopper.proxy.rlwy.net:10213/railway';
 
     // 1. Construct the API endpoint with the search query if one exists
     if (searchQuery) {
@@ -154,7 +154,7 @@ function displayProducts(products) {
             <a href="#" class="fas fa-share"></a>
             <a href="#" class="fas fa-eye"></a>
             </div>
-            <img src="${product.image_url}" alt="${product.name}">
+            <img src="${product.imege_url}" alt="${product.name}">
             <h3>${product.name}</h3>
             <div class="stars">
             <i class="fas fa-star"></i>
