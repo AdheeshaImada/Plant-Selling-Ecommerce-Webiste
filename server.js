@@ -5,6 +5,7 @@ const cors = require('cors'); // Use CORS to allow requests from the same origin
 
 
 const app = express();
+const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
 const port = 3000;
 
 // Middleware to parse JSON bodies
@@ -53,5 +54,5 @@ app.use((req, res) => {
 
 // Start server
 app.listen(port, () => {
-    console.log(`🌱 Server running at http://localhost:${port}`);
+    console.log(`🌱 Server running at ${BACKEND_URL}:${port}`);
 });

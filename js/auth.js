@@ -1,4 +1,7 @@
 // js/auth.js
+
+const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
+
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
 
@@ -10,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('login-password').value.trim();
 
             try {
-                const response = await fetch('http://localhost:3000/auth/login', {
+                const response = await fetch(`${BACKEND_URL}/auth/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

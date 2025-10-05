@@ -1,4 +1,8 @@
 // js/admin.js
+
+const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
+
+
 document.addEventListener('DOMContentLoaded', async () => {
     const userId = localStorage.getItem('userId');
 
@@ -16,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     try {
-        const checkAdminResponse = await fetch(`http://localhost:3000/auth/user/${userId}`);
+        const checkAdminResponse = await fetch(`${BACKEND_URL}/auth/user/${userId}`);
         const userResult = await checkAdminResponse.json();
 
         if (checkAdminResponse.ok && userResult.user.role === 'admin') {
@@ -35,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     async function fetchAndDisplayProducts() {
         try {
-            const response = await fetch('http://localhost:3000/products');
+            const response = await fetch(`${BACKEND_URL}/products`);
             const products = await response.json();
             productListBody.innerHTML = '';
             products.forEach(product => {
@@ -84,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function addProduct(productData) {
         const userId = localStorage.getItem('userId');
         try {
-            const response = await fetch('http://localhost:3000/products/add', {
+            const response = await fetch(`${BACKEND_URL}/products/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -108,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function deleteProduct(productId) {
         const userId = localStorage.getItem('userId');
         try {
-            const response = await fetch(`http://localhost:3000/products/delete/${productId}`, {
+            const response = await fetch(`${BACKEND_URL}/products/delete/${productId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -146,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     try {
-        const response = await fetch(`http://localhost:3000/products/increase-stock/${productId}`, {
+        const response = await fetch(`${BACKEND_URL}/products/increase-stock/${productId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

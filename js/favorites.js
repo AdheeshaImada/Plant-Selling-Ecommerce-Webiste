@@ -1,5 +1,8 @@
 // js/favorites.js
 
+const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const userId = localStorage.getItem('userId');
     const productListContainer = document.getElementById('product-list');
@@ -18,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Fetches the product IDs that the user has favorited
     async function fetchFavoriteProductIds(userId) {
         try {
-            const response = await fetch(`http://localhost:3000/favorites/${userId}`);
+            const response = await fetch(`${BACKEND_URL}/favorites/${userId}`);
             if (!response.ok) throw new Error('Failed to fetch favorite IDs');
             // This returns an array of IDs: [1, 5, 8]
             return await response.json(); 
@@ -37,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // For simplicity, we'll fetch ALL products and filter them client-side for now.
         
         try {
-            const response = await fetch('http://localhost:3000/products');
+            const response = await fetch(`${BACKEND_URL}/products`);
             if (!response.ok) throw new Error('Failed to fetch all products');
             const allProducts = await response.json();
             
@@ -117,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault(); 
 
         try {
-            const response = await fetch('http://localhost:3000/favorites/toggle', {
+            const response = await fetch(`${BACKEND_URL}/favorites/toggle`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -156,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const quantity = parseInt(quantityInput.value);
         
         try {
-            const response = await fetch('http://localhost:3000/cart/add', {
+            const response = await fetch(`${BACKEND_URL}/cart/add`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId, productId: productId, quantity })

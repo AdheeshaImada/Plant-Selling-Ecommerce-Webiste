@@ -1,7 +1,6 @@
-// js/products.js
+const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
 
-// Ensure necessary variables are available (or make these functions global in script.js)
-// For now, we will redefine the necessary helper functions from script.js here:
+
 const currentUserId = localStorage.getItem('userId');
 let userFavorites = []; 
 const userlogin = document.querySelector('.login-form-container'); 
@@ -35,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchUserFavorites(userId) {
     if (!userId) return [];
     try {
-        const response = await fetch(`http://localhost:3000/favorites/${userId}`);
+        const response = await fetch(`${BACKEND_URL}/favorites/${userId}`);
         if (!response.ok) throw new Error('Failed to fetch favorites');
         return await response.json().then(ids => ids.map(id => parseInt(id)));
     } catch (error) {
@@ -62,7 +61,7 @@ async function toggleFavorite(event) {
     if (!productId) return;
 
     try {
-        const response = await fetch('http://localhost:3000/favorites/toggle', {
+        const response = await fetch(`${BACKEND_URL}/favorites/toggle`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -98,7 +97,7 @@ async function toggleFavorite(event) {
 async function fetchProductsAndFavorites(searchQuery = null) {
     const userId = localStorage.getItem('userId');
     const container = document.getElementById('product-list-page');
-    let endpoint = 'http://localhost:3000/products';
+    let endpoint = `${BACKEND_URL}/products`;
 
     if (searchQuery) {
         endpoint += `?query=${encodeURIComponent(searchQuery)}`;
@@ -200,7 +199,7 @@ function displayProducts(products, container) {
                     return;
                 }
                 
-                const response = await fetch('http://localhost:3000/cart/add', {
+                const response = await fetch(`${BACKEND_URL}/cart/add`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ userId, productId, quantity })
