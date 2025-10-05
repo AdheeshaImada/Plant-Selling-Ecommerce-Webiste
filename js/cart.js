@@ -30,13 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayCartItems(items) {
+        alert("OK 1");
         cartItemsContainer.innerHTML = ''; // Clear existing items
         let total = 0;
 
         if (items.length === 0) {
             cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`;
             // Disable checkout button if cart is empty
+            alert("OK 2");
             if (checkoutBtn) {
+                alert("OK 3");
                 checkoutBtn.style.pointerEvents = 'none';
                 checkoutBtn.style.opacity = '0.5';
             }
@@ -46,11 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Enable checkout button if cart has items
         if (checkoutBtn) {
+            alert("OK 4");
             checkoutBtn.style.pointerEvents = 'auto';
             checkoutBtn.style.opacity = '1';
         }
 
         items.forEach(item => {
+            alert("OK 5");
             const itemBox = document.createElement('div');
             itemBox.className = 'cart-item-box';
             itemBox.innerHTML = `
@@ -106,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Checkout function
     async function handleCheckout(event) {
+        alert("OK 6");
         event.preventDefault(); // Prevent default link navigation
 
         if (!confirm("Are you sure you want to complete the purchase?")) {
