@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host: hopper.proxy.rlwy.net,
-  user:root,
-  password:YwABBpYUckRrdxokHEAhdaUdfMxvveUp,
-  database: railway,
+  host: "hopper.proxy.rlwy.net",
+  user: "root",
+  password: "YwABBpYUckRrdxokHEAhdaUdfMxvveUp",
+  database: "railway",
   port: 10213
 });
 
