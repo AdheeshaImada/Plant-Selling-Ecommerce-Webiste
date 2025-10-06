@@ -22,12 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchOrders() {
         orderListBody.innerHTML = '<tr><td colspan="7">Loading orders...</td></tr>';
         try {
+            alert("ok 1");
             const response = await fetch(API_URL);
             if (!response.ok) {
+                alert("ok 2");
                 throw new Error('Failed to fetch orders.');
             }
             const orders = await response.json();
             displayOrders(orders);
+            alert("ok 3");
         } catch (error) {
             console.error('Error fetching orders:', error);
             orderListBody.innerHTML = '<tr><td colspan="7">Error loading orders.</td></tr>';
