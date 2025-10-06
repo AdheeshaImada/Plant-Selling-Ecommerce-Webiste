@@ -48,13 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
         orders.forEach(order => {
             const row = document.createElement('tr');
             const date = new Date(order.order_date).toLocaleDateString();
+            const totalAmount = parseFloat(order.total_amount) || 0;
 
             row.innerHTML = `
                 <td>${order.order_id}</td>
                 <td>${order.user_name}</td>
                 <td>${date}</td>
                 <td>${order.total_items}</td>
-                <td>$${order.total_amount.toFixed(2)}</td>
+                <td>$${totalAmount.toFixed(2)}</td>
                 <td>
                     <span class="${statusClasses[order.status] || ''}">${order.status}</span>
                 </td>
