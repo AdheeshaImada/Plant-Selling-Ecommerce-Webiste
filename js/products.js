@@ -26,10 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-// =========================================================================
-// CORE FUNCTIONS (Copied/Adapted from your combined script.js logic)
-// =========================================================================
-
 // Function to fetch the user's current favorites
 async function fetchUserFavorites(userId) {
     if (!userId) return [];

@@ -1,4 +1,3 @@
-// js/auth.js
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';

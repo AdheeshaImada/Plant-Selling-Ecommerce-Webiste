@@ -1,10 +1,7 @@
-// js/admin.js
-
 document.addEventListener('DOMContentLoaded', async () => {
     const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
     const userId = localStorage.getItem('userId');
 
-    // First, verify if the user is an admin
     if (!userId) {
         alert('You must be logged in to view this page.');
         window.location.href = 'signin.html';
@@ -22,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const userResult = await checkAdminResponse.json();
 
         if (checkAdminResponse.ok && userResult.user.role === 'admin') {
-            // User is an admin, proceed to load the content
             await fetchAndDisplayProducts();
         } else {
             alert('Access denied. You do not have administrator privileges.');
@@ -63,7 +59,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // FIX APPLIED HERE: Added event listener for '.increase-stock-btn'
     function attachEventListeners() {
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', async (event) => {
@@ -177,8 +172,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             price: parseFloat(document.getElementById('price').value),
             stock_quantity: parseInt(document.getElementById('stock_quantity').value),
             imege_url: document.getElementById('image_url').value,
-            // You are missing the 'category' field here, you should add it back to the form data
-            // category: document.getElementById('category').value 
         };
         addProduct(productData);
     });

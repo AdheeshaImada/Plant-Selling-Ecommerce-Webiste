@@ -4,36 +4,48 @@ const router = express.Router();
 const db = require('../db');
 const bcrypt = require('bcryptjs');
 
-// Register a new user
-router.post('/register', async (req, res) => {
+router.post('/signup', async (req, res) => { // CRITICAL: Use 'async' here
+    // Destructure data sent from the frontend
     const { username, email, password } = req.body;
 
-    // Validate input
+    // 1. Validate input (Good practice)
     if (!username || !email || !password) {
-        return res.status(400).json({ message: 'All fields are required.' });
+        // Return 400 if any required field is missing
+        return res.status(400).json({ success: false, message: 'All fields (username, email, password) are required.' });
     }
 
     try {
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // 2. Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10); // Hash the password with a cost factor of 10
 
-        // Insert the new user into the database
-        const query = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-        db.query(query, [username, email, hashedPassword], (err, result) => {
+        // 3. Insert the new user into the database
+        // NOTE: Ensure your users table has the 'role' column.
+        const query = 'INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)';
+        
+        // Use the HASHED password in the values array
+        db.query(query, [username, email, hashedPassword, 'user'], (err, result) => {
             if (err) {
-                if (err.code === 'ER_DUP_ENTRY') {
-                    return res.status(409).json({ message: 'Username or email already exists.' });
+                if (err.code === 'ER_DUP_ENTRY' || err.errno === 1062) {
+                    // This handles unique constraint errors (e.g., if username or email is a duplicate)
+                    return res.status(409).json({ success: false, message: 'Username or email already exists. Please choose another.' });
                 }
-                console.error('Error registering user:', err);
-                return res.status(500).send('Server error');
+                console.error('Database Error during signup:', err);
+                return res.status(500).json({ success: false, message: 'Server failed to create user.' });
             }
-            res.status(201).json({ message: 'User registered successfully!', userId: result.insertId });
+
+            // Success response
+            res.status(201).json({ 
+                success: true, 
+                message: 'User created successfully! Proceed to sign-in.',
+                userId: result.insertId
+            });
         });
     } catch (error) {
-        console.error('Error hashing password:', error);
-        res.status(500).send('Server error');
+        console.error('Error during signup process (hashing or database query):', error);
+        res.status(500).json({ success: false, message: 'Internal server error during user creation.' });
     }
 });
+
 
 // Login a user
 router.post('/login', async (req, res) => {
