@@ -1,5 +1,3 @@
-// cart.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
     const cartItemsContainer = document.getElementById('cart-items');
@@ -92,14 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cartTotalElement.innerText = `$${total.toFixed(2)}`;
 
-        // This is the CRITICAL change: Add event listeners after elements are created
         const removeButtons = document.querySelectorAll('.remove-item-btn');
         removeButtons.forEach(button => {
             button.addEventListener('click', async (event) => {
-                // Find the closest parent button that has the data-product-id attribute
                 const buttonElement = event.target.closest('.remove-item-btn');
                 const productId = buttonElement.dataset.productId;
-                //const userId = 11;
 
                 try {
                     const response = await fetch(`${BACKEND_URL}/cart/remove`, {
@@ -285,6 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     
-    fetchCartData(); // Initial fetch to load the cart
+    fetchCartData();
     fetchAddresses();
 });

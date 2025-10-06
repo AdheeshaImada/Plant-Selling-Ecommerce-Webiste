@@ -1,5 +1,3 @@
-// script.js
-// Place these at the top of your script (Preserved Existing Variables)
 const BACKEND_BASE_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app'; 
 const loginBtn = document.getElementById('login-btn');
 const logoutBtn = document.getElementById('logout-btn');
@@ -14,10 +12,6 @@ const cart = document.querySelector('.cart-items-container');
 // NEW: Variables for Favorites
 const currentUserId = localStorage.getItem('userId');
 let userFavorites = []; 
-
-// =========================================================================
-// FAVORITES LOGIC (NEW FUNCTIONS)
-// =========================================================================
 
 // Function to fetch the user's current favorites
 async function fetchUserFavorites(userId) {

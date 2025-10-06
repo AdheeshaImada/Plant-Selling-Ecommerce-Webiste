@@ -1,5 +1,3 @@
-// js/favorites.js
-
 const BACKEND_URL = 'https://plant-selling-ecommerce-webiste-production.up.railway.app';
 
 
@@ -23,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`${BACKEND_URL}/favorites/${userId}`);
             if (!response.ok) throw new Error('Failed to fetch favorite IDs');
-            // This returns an array of IDs: [1, 5, 8]
             return await response.json(); 
         } catch (error) {
             console.error('Error fetching favorite IDs:', error);
@@ -34,11 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Fetches the full product data for the given IDs
     async function fetchProductsByIds(productIds) {
         if (productIds.length === 0) return [];
-        
-        // Assuming you have an API endpoint to fetch products by a list of IDs.
-        // If not, this is a placeholder and may require a new backend endpoint.
-        // For simplicity, we'll fetch ALL products and filter them client-side for now.
-        
         try {
             const response = await fetch(`${BACKEND_URL}/products`);
             if (!response.ok) throw new Error('Failed to fetch all products');
