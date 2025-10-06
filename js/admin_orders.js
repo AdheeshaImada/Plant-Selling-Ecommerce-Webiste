@@ -24,14 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             alert("ok 1");
             const response = await fetch(API_URL);
+            console.log(response);
             if (!response.ok) {
                 alert("ok 2");
                 throw new Error('Failed to fetch orders.');
             }
             const orders = await response.json();
             displayOrders(orders);
-            alert("ok 3");
         } catch (error) {
+            alert("ok 3");
             console.error('Error fetching orders:', error);
             orderListBody.innerHTML = '<tr><td colspan="7">Error loading orders.</td></tr>';
         }
